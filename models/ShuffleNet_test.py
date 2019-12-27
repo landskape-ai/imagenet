@@ -400,13 +400,14 @@ def train(train_loader, model, criterion, optimizer, epoch):
 		# measure elapsed time
 		batch_time.update(time.time() - end)
 		end = time.time()
+		#print("Training peacefully ",losses.val, "\t", losses.avg) 
 
-	print('Epoch: [{0}][{1}/{2}]\t'
+	print('Epoch: [{0}][{1}]\t'
 		  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
 		  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
 		  'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t'
 		  'Prec@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
-		   epoch, i, len(train_loader), batch_time=batch_time,
+		   epoch, len(train_loader), batch_time=batch_time,
 		   loss=losses, top1=top1, top5=top5))
 	train_stats = train_stats.append({'Epoch': epoch, 'Time per epoch':batch_time.val, 'Avg time per step': batch_time.avg, 'Train loss' : losses.val, 'Train accuracy': top1.val, 'Train top-5 accuracy':top5.val}, ignore_index=True)
 
@@ -464,7 +465,7 @@ valdir = os.getcwd() + '/val'
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
 									 std=[0.229, 0.224, 0.225])
 
-batch_size = 128
+batch_size = 64
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # dist.init_process_group(backend="nccl", init_method="tcp://172.31.22.234:23456", rank=0, world_size=16)
 
@@ -510,7 +511,6 @@ optimizer = Adam(model.parameters(), lr=learning_rate)
 #train the model
 steps = 0
 running_loss = 0
-epochs = 100
 starting_lr = learning_rate
 best_prec1 = 0
 print("-------------------Model Ready------------------")
@@ -529,6 +529,8 @@ for epoch in range(num_epochs):
 	print("Epoch Completed")
 	if (epoch + 1) % 10 == 0:
 		torch.save(model.state_dict, os.getcwd() + "/Trained_"+ str(epoch + 1)+".pth")
+
+#testloader = DataLoader(datasets.ImageFolder(valdir, transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(),normalize,])), batch_size = batch_size, shuffle = False,num_workers = 4, pin_memory = True)
 
 top1acc, top5acc = test(testloader, model, criterion)
 print("Top-1 Test Accuracy : ", top1acc,"\tTop-5 Test Accuracy : ", top5acc)
