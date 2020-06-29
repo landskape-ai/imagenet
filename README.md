@@ -17,30 +17,6 @@ We will cover the following use cases:
 - Single node multi-GPU training
 - Multi-node multi-GPU training
 
-## Results, Learning Curves, Visualizations
-
-### Learning Curves
-
-![](figures/top1_train.png) 
-
-![](figures/top1_val.png)
-
-![](figures/top5_train.png) 
-
-![](figures/top5_val.png)
-
-### Scalability Analysis
-
-![](figures/training_throughput.png)
-    
-![](figures/training_time.png)
-
-### I/O Performance
-
-![](figures/IO.png)
-
-- Please see `RESULTS.md` for more details
-
 ## Requirements
 
 - Python 3
