@@ -1,7 +1,7 @@
 # ImageNet
 ImageNet training repository for Landskape experiments
 
-## Datasets
+# Datasets
 
 ## Downloading
 The ImageNet dataset URLs are no longer public. You must obtain a non-public copy from https://image-net.org/ and download the relavent tar files. `extract.sh` automates this, as long as you pass your URL into the TRAIN_URL and VALID_URL environment variables, like this:
