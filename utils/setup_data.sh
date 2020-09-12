@@ -4,14 +4,14 @@
 # URLs are not public, and must be specified
 
 # ILSVRC2012_img_train.tar (about 138 GB)
-TRAIN_URL = ""
+TRAIN_URL=""
 
 # ILSVRC2012_img_val.tar (about 6.3 GB)
-VALID_URL = ""
+VALID_URL=""
 
 # optionally download the datasets
-if [ -n TRAIN_URL ] then wget TRAIN_URL fi
-if [ -n VALID_URL ] then wget VALID_URL fi
+if [ -n $TRAIN_URL ]; then wget $TRAIN_URL; fi
+if [ -n $VALID_URL ]; then wget $VALID_URL; fi
 
 # make sure ILSVRC2012_img_train.tar & ILSVRC2012_img_val.tar in your current directory
 # after extracting, the expected directory structure is shown below
@@ -46,12 +46,13 @@ wget -qO- https://raw.githubusercontent.com/soumith/imagenetloader.torch/master/
 # check total files after extract
 
 # expected: 1281167
-N_TRAIN = find train/ -name "*.JPEG" | wc -l
+N_TRAIN=find train/ -name "*.JPEG" | wc -l
 if [ N_TRAIN -eq 1281167 ]
 then
-    echo "Sucessfully extracted training set!"
+    do echo "Sucessfully extracted training set!"; done
 else
-    echo "Something went wrong. Please try again."
+    do echo "Something went wrong. Please try again."; done
+fi    
 
 # expected: 50000
 N_VALID = find val/ -name "*.JPEG" | wc -l
@@ -60,3 +61,4 @@ then
     echo "Sucessfully extracted validation set!"
 else
     echo "Something went wrong. Please try again."
+fi
