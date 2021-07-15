@@ -67,7 +67,7 @@ usage: main.py [-h] [--arch ARCH] [-j N] [--epochs N] [--start-epoch N] [-b N]
                [--resume PATH] [-e] [--pretrained] [--world-size WORLD_SIZE]
                [--rank RANK] [--dist-url DIST_URL]
                [--dist-backend DIST_BACKEND] [--seed SEED] [--gpu GPU]
-               [--multiprocessing-distributed]
+               [--multiprocessing-distributed]  [--name]
                DIR
 
 PyTorch ImageNet Training
@@ -111,5 +111,7 @@ optional arguments:
                         processes per node, which has N GPUs. This is the
                         fastest way to use PyTorch for either single node or
                         multi node data parallel training
+                        
+  --name.               Name for the W&B run
 ```
 
