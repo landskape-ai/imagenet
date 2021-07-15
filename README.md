@@ -111,6 +111,6 @@ optional arguments:
                         processes per node, which has N GPUs. This is the
                         fastest way to use PyTorch for either single node or
                         multi node data parallel training                    
-  --name.               Name for the W&B run
+  --name                Name for the W&B run
 ```
 
