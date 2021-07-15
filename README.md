@@ -110,8 +110,7 @@ optional arguments:
                         Use multi-processing distributed training to launch N
                         processes per node, which has N GPUs. This is the
                         fastest way to use PyTorch for either single node or
-                        multi node data parallel training
-                        
+                        multi node data parallel training                    
   --name.               Name for the W&B run
 ```
 
