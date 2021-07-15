@@ -4,6 +4,7 @@ import random
 import shutil
 import time
 import warnings
+import wandb
 
 import torch
 import torch.nn as nn
@@ -75,12 +76,15 @@ parser.add_argument('--multiprocessing-distributed', action='store_true',
                          'N processes per node, which has N GPUs. This is the '
                          'fastest way to use PyTorch for either single node or '
                          'multi node data parallel training')
-
+parser.add_argument('--name', default=None, type=str,
+                    help='Name for the W&B run.')
 best_acc1 = 0
 
 
 def main():
     args = parser.parse_args()
+    
+    wandb.init(project='ImageNet', name = args.name, config=args, save_code=True)
 
     if args.seed is not None:
         random.seed(args.seed)
@@ -137,6 +141,8 @@ def main_worker(gpu, ngpus_per_node, args):
     else:
         print("=> creating model '{}'".format(args.arch))
         model = models.__dict__[args.arch]()
+        
+    wandb.watch(model)
 
     if args.distributed:
         # For multiprocessing distributed, DistributedDataParallel constructor
@@ -250,6 +256,12 @@ def main_worker(gpu, ngpus_per_node, args):
         # remember best acc@1 and save checkpoint
         is_best = acc1 > best_acc1
         best_acc1 = max(acc1, best_acc1)
+        
+        wandb.log({
+            'Val/Top-1 accuracy': top1.avg,
+            'Val/Best Top-1 accuracy':best_acc1,
+            'Epoch': epoch,
+              })
 
         if not args.multiprocessing_distributed or (args.multiprocessing_distributed
                 and args.rank % ngpus_per_node == 0):
@@ -306,6 +318,12 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
 
         if i % args.print_freq == 0:
             progress.display(i)
+            
+        wandb.log({
+            'Train/Top-1 accuracy': top1,
+            'Train/Top-5 accuracy': top5,
+            'Train/Loss': losses,
+              })
 
 
 def validate(val_loader, model, criterion, args):
